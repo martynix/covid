@@ -1,5 +1,6 @@
 select *
 from covid..CovidDeaths
+where continent is not null
 order by 3,4
 
 select *
@@ -17,7 +18,7 @@ order by 1,2
 
 select Location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as DeathPercentage
 from covid..CovidDeaths
---where location = 'Poland'
+where location = 'Poland'
 order by 1,2
 
 
@@ -26,7 +27,7 @@ order by 1,2
 
 select Location, date, Population, total_cases, (total_cases/population)*100 as PopulationInfectedPercentage
 from covid..CovidDeaths
---where location = 'Poland'
+where continent is not null
 order by 1,2
 
 
@@ -34,7 +35,7 @@ order by 1,2
 
 select Location, Population, MAX(total_cases) as HighestInfectionRate, MAX((total_cases/population))*100 as PopulationInfectedPercentage
 from covid..CovidDeaths
---where location = 'Poland'
+where continent is not null
 group by Location, Population
 order by PopulationInfectedPercentage desc
 
@@ -44,6 +45,15 @@ order by PopulationInfectedPercentage desc
 
 select Location, MAX(cast(total_deaths as int)) as TotalDeathCount
 from covid..CovidDeaths
---where location = 'Poland'
+where continent is not null -- to choose only countries, not whole continents
+group by Location
+order by TotalDeathCount desc
+
+
+-- let's do this, this time by continent
+
+select Location, MAX(cast(total_deaths as int)) as TotalDeathCount
+from covid..CovidDeaths
+where continent is null
 group by Location
 order by TotalDeathCount desc
