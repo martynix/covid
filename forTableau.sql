@@ -41,7 +41,7 @@ order by PercentPopulationInfected desc
 -- 4.
 
 
-Select Location, Population,date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
+Select Location, Population, CONVERT(varchar, date, 103) AS FormattedDate, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
 From covid..CovidDeaths
 --Where location like '%states%'
 Group by Location, Population, date
